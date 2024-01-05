@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:kagi_api/src/model/enrichment_type.dart';
+import 'package:kagi_api/src/model/constant/enrichment_type.dart';
 import 'package:kagi_api/src/model/fast_gpt_response.dart';
 import 'package:kagi_api/src/model/search_response.dart';
 import 'package:kagi_api/src/model/summarization_response.dart';
-import 'package:kagi_api/src/model/token_type.dart';
+import 'package:kagi_api/src/model/constant/token_type.dart';
 
 /// Access to the Kagi API
 class Kagi {
