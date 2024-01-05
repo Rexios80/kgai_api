@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:kagi_api/src/model/enrichment_type.dart';
 import 'package:kagi_api/src/model/fast_gpt_response.dart';
 import 'package:kagi_api/src/model/search_response.dart';
 import 'package:kagi_api/src/model/token_type.dart';
@@ -46,6 +47,20 @@ class Kagi {
         'q': query,
         if (limit != null) 'limit': limit,
       }),
+      headers: _headers,
+    );
+
+    final json = jsonDecode(response.body);
+    return SearchResponse.fromJson(json);
+  }
+
+  /// Enrichment API
+  Future<SearchResponse> enrich({
+    required String query,
+    EnrichmentType type = EnrichmentType.web,
+  }) async {
+    final response = await _client.get(
+      Uri.https(_authority, '$_basePath/enrich/$type', {'q': query}),
       headers: _headers,
     );
 
