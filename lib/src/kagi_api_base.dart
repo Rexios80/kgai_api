@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:kagi_api/src/model/enrichment_type.dart';
 import 'package:kagi_api/src/model/fast_gpt_response.dart';
 import 'package:kagi_api/src/model/search_response.dart';
+import 'package:kagi_api/src/model/summarization_response.dart';
 import 'package:kagi_api/src/model/token_type.dart';
 
 /// Access to the Kagi API
@@ -24,6 +25,49 @@ class Kagi {
           'Authorization': '$tokenType $token',
           'Content-Type': 'application/json',
         };
+
+  /// Summarize something
+  ///
+  /// Parameters [url] and [text] are exclusive. You must pass one or the other.
+  ///
+  /// Total request size is limited to 1MB.
+  Future<SummarizationResponse> summarize({
+    /// A URL to a document to summarize. Exclusive with text.
+    String? url,
+
+    /// Text to summarize. Exclusive with url.
+    String? text,
+
+    /// See [SummarizationEngine]
+    String? engine,
+
+    /// See [SummaryType]
+    String? summaryType,
+
+    /// [Desired output language](https://help.kagi.com/kagi/api/summarizer.html#target-language-codes)
+    String? targetLanguage,
+
+    /// Whether to allow cached requests & responses. (default is true)
+    bool? cache,
+  }) async {
+    assert(url != null || text != null);
+
+    final response = await _client.post(
+      Uri.https(_authority, '$_basePath/summarize'),
+      headers: _headers,
+      body: jsonEncode({
+        if (url != null) 'url': url,
+        if (text != null) 'text': text,
+        if (engine != null) 'engine': engine,
+        if (summaryType != null) 'summary_type': summaryType,
+        if (targetLanguage != null) 'target_language': targetLanguage,
+        if (cache != null) 'cache': cache,
+      }),
+    );
+
+    final json = jsonDecode(response.body);
+    return SummarizationResponse.fromJson(json);
+  }
 
   /// Ask FastGPT to answer a [query]
   Future<FastGptResponse> fastGpt({required String query, bool? cache}) async {
