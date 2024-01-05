@@ -24,14 +24,14 @@ class Kagi {
 
   Future<KagiResponse<FastGptAnswer>> fastGpt({
     required String query,
-    bool cache = true,
+    bool? cache,
   }) async {
     final response = await _client.post(
       Uri.parse('$_api/fastgpt'),
       headers: _headers,
       body: jsonEncode({
         'query': query,
-        'cache': cache,
+        if (cache != null) 'cache': cache,
       }),
     );
 
