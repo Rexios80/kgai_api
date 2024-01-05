@@ -31,6 +31,9 @@ class Kagi {
   /// Parameters [url] and [text] are exclusive. You must pass one or the other.
   ///
   /// Total request size is limited to 1MB.
+  /// 
+  /// Arguments are purposely left as strings instead of enums to allow for use
+  /// of future values without updating this package.
   Future<SummarizationResponse> summarize({
     /// A URL to a document to summarize. Exclusive with text.
     String? url,

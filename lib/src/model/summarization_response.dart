@@ -46,6 +46,8 @@ class SummarizationData {
 }
 
 /// Summary types
+/// 
+/// https://help.kagi.com/kagi/api/summarizer.html#summary-types
 sealed class SummaryType {
   SummaryType._();
 
@@ -59,6 +61,8 @@ sealed class SummaryType {
 }
 
 /// Summarization engines
+/// 
+/// https://help.kagi.com/kagi/api/summarizer.html#summarization-engines
 sealed class SummarizationEngine {
   SummarizationEngine._();
 
