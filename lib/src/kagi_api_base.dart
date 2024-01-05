@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:kagi_api/src/untampered_request.dart';
 import 'package:kagi_api/src/model/constant/enrichment_type.dart';
 import 'package:kagi_api/src/model/fast_gpt_response.dart';
 import 'package:kagi_api/src/model/search_response.dart';
@@ -31,7 +32,7 @@ class Kagi {
   /// Parameters [url] and [text] are exclusive. You must pass one or the other.
   ///
   /// Total request size is limited to 1MB.
-  /// 
+  ///
   /// Arguments are purposely left as strings instead of enums to allow for use
   /// of future values without updating this package.
   Future<SummarizationResponse> summarize({
@@ -55,17 +56,19 @@ class Kagi {
   }) async {
     assert(url != null || text != null);
 
-    final response = await _client.post(
+    final response = await untamperedRequest(
+      _client,
+      'POST',
       Uri.https(_authority, '$_basePath/summarize'),
       headers: _headers,
-      body: jsonEncode({
+      body: {
         if (url != null) 'url': url,
         if (text != null) 'text': text,
         if (engine != null) 'engine': engine,
         if (summaryType != null) 'summary_type': summaryType,
         if (targetLanguage != null) 'target_language': targetLanguage,
         if (cache != null) 'cache': cache,
-      }),
+      },
     );
 
     final json = jsonDecode(response.body);
@@ -74,13 +77,15 @@ class Kagi {
 
   /// Ask FastGPT to answer a [query]
   Future<FastGptResponse> fastGpt({required String query, bool? cache}) async {
-    final response = await _client.post(
+    final response = await untamperedRequest(
+      _client,
+      'POST',
       Uri.https(_authority, '$_basePath/fastgpt'),
       headers: _headers,
-      body: jsonEncode({
+      body: {
         'query': query,
         if (cache != null) 'cache': cache,
-      }),
+      },
     );
 
     final json = jsonDecode(response.body);
