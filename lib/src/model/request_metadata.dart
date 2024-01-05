@@ -5,9 +5,16 @@ part 'request_metadata.g.dart';
 /// Metadata about the request
 @JsonSerializable()
 class RequestMetadata {
+  /// The request id
   final String id;
+
+  /// The node that handled the request
   final String node;
+
+  /// The time it took to process the request
   final int ms;
+
+  /// The remaining account balance
   @JsonKey(name: 'api_balance')
   final double apiBalance;
 

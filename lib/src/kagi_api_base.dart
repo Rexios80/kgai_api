@@ -1,13 +1,15 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:kagi_api/src/model/kagi_data.dart';
-import 'package:kagi_api/src/model/kagi_response.dart';
+import 'package:kagi_api/src/model/fast_gpt_response.dart';
+import 'package:kagi_api/src/model/search_response.dart';
 import 'package:kagi_api/src/model/token_type.dart';
 
+/// Access to the Kagi API
 class Kagi {
   static const _apiVersion = 'v0';
-  static const _api = 'https://kagi.com/api/$_apiVersion';
+  static const _authority = 'kagi.com';
+  static const _basePath = '/api/$_apiVersion';
 
   final _client = http.Client();
 
@@ -22,12 +24,10 @@ class Kagi {
           'Content-Type': 'application/json',
         };
 
-  Future<KagiResponse<FastGptAnswer>> fastGpt({
-    required String query,
-    bool? cache,
-  }) async {
+  /// Ask FastGPT to answer a [query]
+  Future<FastGptResponse> fastGpt({required String query, bool? cache}) async {
     final response = await _client.post(
-      Uri.parse('$_api/fastgpt'),
+      Uri.https(_authority, '$_basePath/fastgpt'),
       headers: _headers,
       body: jsonEncode({
         'query': query,
@@ -36,6 +36,20 @@ class Kagi {
     );
 
     final json = jsonDecode(response.body);
-    return KagiResponse<FastGptAnswer>.fromJson(json);
+    return FastGptResponse.fromJson(json);
+  }
+
+  /// Perform a Kagi search
+  Future<SearchResponse> search({required String query, int? limit}) async {
+    final response = await _client.get(
+      Uri.https(_authority, '$_basePath/search', {
+        'q': query,
+        if (limit != null) 'limit': limit,
+      }),
+      headers: _headers,
+    );
+
+    final json = jsonDecode(response.body);
+    return SearchResponse.fromJson(json);
   }
 }
