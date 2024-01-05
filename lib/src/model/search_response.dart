@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kagi_api/src/model/kagi_error.dart';
 import 'package:kagi_api/src/model/kagi_response.dart';
+import 'package:kagi_api/src/model/request_metadata.dart';
 
 part 'search_response.g.dart';
 
