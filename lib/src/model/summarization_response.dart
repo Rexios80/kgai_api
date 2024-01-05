@@ -26,7 +26,7 @@ class SummarizationResponse extends KagiResponse<SummarizationData> {
 @JsonSerializable()
 class SummarizationData {
   /// Summarization output
-  final String output;
+  final String? output;
 
   /// Amount of tokens processed
   final int tokens;

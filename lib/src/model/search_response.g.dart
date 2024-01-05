@@ -21,15 +21,17 @@ SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) =>
     );
 
 SearchResult _$SearchResultFromJson(Map<String, dynamic> json) => SearchResult(
-      rank: json['rank'] as int,
+      rank: json['rank'] as int?,
       url: json['url'] as String,
       title: json['title'] as String,
       snippet: json['snippet'] as String?,
       published: json['published'] == null
           ? null
           : DateTime.parse(json['published'] as String),
-      thumbnail: SearchResultThumbnail.fromJson(
-          json['thumbnail'] as Map<String, dynamic>),
+      thumbnail: json['thumbnail'] == null
+          ? null
+          : SearchResultThumbnail.fromJson(
+              json['thumbnail'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$SearchResultToJson(SearchResult instance) =>

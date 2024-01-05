@@ -29,7 +29,7 @@ Map<String, dynamic> _$SummarizationResponseToJson(
 
 SummarizationData _$SummarizationDataFromJson(Map<String, dynamic> json) =>
     SummarizationData(
-      output: json['output'] as String,
+      output: json['output'] as String?,
       tokens: json['tokens'] as int,
     );
 

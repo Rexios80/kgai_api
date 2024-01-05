@@ -53,7 +53,7 @@ class SearchData {
 @JsonSerializable()
 class SearchResult {
   /// Result rank
-  final int rank;
+  final int? rank;
 
   /// URL
   final String url;
@@ -68,16 +68,16 @@ class SearchResult {
   final DateTime? published;
 
   /// An image associated with the result
-  final SearchResultThumbnail thumbnail;
+  final SearchResultThumbnail? thumbnail;
 
   /// Constructor
   const SearchResult({
-    required this.rank,
+    this.rank,
     required this.url,
     required this.title,
     this.snippet,
     this.published,
-    required this.thumbnail,
+    this.thumbnail,
   });
 
   /// From json
