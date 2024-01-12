@@ -30,9 +30,10 @@ Map<String, dynamic> _$FastGptResponseToJson(FastGptResponse instance) =>
 FastGptAnswer _$FastGptAnswerFromJson(Map<String, dynamic> json) =>
     FastGptAnswer(
       output: json['output'] as String,
-      references: (json['references'] as List<dynamic>)
-          .map((e) => FastGptReference.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      references: (json['references'] as List<dynamic>?)
+              ?.map((e) => FastGptReference.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       tokens: json['tokens'] as int,
     );
 

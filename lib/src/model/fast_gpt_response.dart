@@ -38,7 +38,7 @@ class FastGptAnswer {
   /// Constructor
   const FastGptAnswer({
     required this.output,
-    required this.references,
+    this.references = const [],
     required this.tokens,
   });
 
