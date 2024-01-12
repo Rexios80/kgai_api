@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kagi_api/kagi_api.dart';
-import 'package:kagi_api/src/model/kagi_response.dart';
 
 part 'summarization_response.g.dart';
 
